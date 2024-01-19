@@ -1,9 +1,11 @@
 import "@/styles/globals.css";
+import { ErrorFallback } from "@/uikits/ErrorFallback";
 import dayjs from "dayjs";
 import jwt from "jsonwebtoken";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 
 export type PageProps = {
   projects: { value: number; label: string }[];
@@ -58,10 +60,12 @@ export default function App({ Component, pageProps }: AppProps) {
   // }
 
   return (
-    <ProtectedPage
-      children={<Component {...pageProps} />}
-      pageProps={pageProps}
-    />
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <ProtectedPage
+        children={<Component {...pageProps} />}
+        pageProps={pageProps}
+      />
+    </ErrorBoundary>
   );
 }
 
