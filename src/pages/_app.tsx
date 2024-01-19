@@ -1,8 +1,8 @@
+import "@/styles/globals.css";
 import dayjs from "dayjs";
 import jwt from "jsonwebtoken";
-import { useRouter } from "next/router";
 import type { AppProps } from "next/app";
-import "@/styles/globals.css";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 export type PageProps = {
@@ -27,7 +27,7 @@ const ProtectedPage = ({
   const { push, pathname } = useRouter();
 
   useEffect(() => {
-    if (pageProps.isAuthenticated && !UNPROTECTED_ROUTES.includes(pathname)) {
+    if (!pageProps.isAuthenticated && !UNPROTECTED_ROUTES.includes(pathname)) {
       setTimeout(() => {
         push("/login");
       }, 1000);
@@ -42,20 +42,20 @@ const ProtectedPage = ({
     return <span className="loader" />;
   }
 
-  return <>{children}</>;
+  return children;
 };
 
 export default function App({ Component, pageProps }: AppProps) {
   const { push, pathname } = useRouter();
 
-  if (!pageProps.isAuthenticated && !UNPROTECTED_ROUTES.includes(pathname)) {
-    return (
-      <>
-        <h1>401 - Token expired</h1>
-        <button onClick={() => push("/login")}>Login</button>
-      </>
-    );
-  }
+  // if (!pageProps.isAuthenticated && !UNPROTECTED_ROUTES.includes(pathname)) {
+  //   return (
+  //     <>
+  //       <h1>401 - Token expired</h1>
+  //       <button onClick={() => push("/login")}>Login</button>
+  //     </>
+  //   );
+  // }
 
   return (
     <ProtectedPage

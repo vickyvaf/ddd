@@ -2,16 +2,21 @@ import styles from "@/styles/Home.module.css";
 import { Inter } from "next/font/google";
 import Head from "next/head";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
   return {
-    props: {},
+    props: {
+      data: "login",
+    },
   };
 };
 
 export default function Home(props: any) {
+  const { push } = useRouter();
+
   return (
     <>
       <Head>
@@ -22,6 +27,7 @@ export default function Home(props: any) {
       </Head>
 
       <main className={`${styles.main} ${inter.className}`}>
+        <button onClick={() => push("/login")}>Login Page</button>
         <div className={styles.description}>
           <p>
             Get started by editing&nbsp;
